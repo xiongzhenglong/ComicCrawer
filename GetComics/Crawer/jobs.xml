@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<quartz>
+  <service>Crawer</service>
+  <namespace>Crawer.Jobs.{0}</namespace>
+  <jobs>
+    
+    <job name="QQ_Comic_Job">0 0/1 * * * ? </job>
+
+   
+
+  </jobs>
+</quartz>
