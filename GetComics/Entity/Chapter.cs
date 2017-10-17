@@ -9,7 +9,7 @@ namespace Entity
         /// <summary>
         /// 来源
         /// </summary>
-        public string source { get; set; }
+        public Source source { get; set; }
         /// <summary>
         /// 章节url
         /// </summary>
@@ -36,7 +36,8 @@ namespace Entity
         /// <summary>
         /// 章节封面
         /// </summary>
-        public string chapterimg { get; set; }
+        public string chaptersource { get; set; }
+        public string chapterlocal { get; set; }
         /// <summary>
         /// 序号
         /// </summary>

@@ -12,4 +12,27 @@ namespace CrawerEnum
         处理完链接,
         上传完图片
     }
+
+    public enum Source
+    {
+        QQ=1,
+        dongmanmanhua
+    }
+
+    public enum ErrComic
+    {
+        解析出错,
+        图片出错
+    }
+
+    public enum ErrChapter
+    {
+        解析出错,
+        图片出错
+    }
+
+    public enum ErrPage
+    {
+        限制访问
+    }
 }

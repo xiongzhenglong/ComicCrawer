@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CrawerEnum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace Entity
         /// <summary>
         /// 来源
         /// </summary>
-        public string source { get; set; }
+        public Source source { get; set; }
 
         /// <summary>
         /// 书的链接
@@ -37,7 +38,8 @@ namespace Entity
         /// <summary>
         /// 封面
         /// </summary>
-        public string comiccover { get; set; }
+        public string comiccoversource { get; set; }
+        public string comiccoverlocal { get; set; }
 
         /// <summary>
         /// 作者

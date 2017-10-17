@@ -86,6 +86,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -111,7 +112,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JobConfig.cs" />
-    <Compile Include="Jobs\QQ_Comic_Job.cs" />
+    <Compile Include="Jobs\Comic_Job.cs" />
+    <Compile Include="Jobs\DownAndUp_Job.cs" />
+    <Compile Include="Jobs\QQ\QQ_Chapter_Job.cs" />
+    <Compile Include="Jobs\QQ\QQ_Page_Job.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -123,6 +127,22 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ApiModel\ApiModel.csproj">
+      <Project>{C35557D5-1B0E-41FC-AA60-CDA5BF035A40}</Project>
+      <Name>ApiModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entity\Entity.csproj">
+      <Project>{1EF6ED4D-A20C-46BE-9734-7C704E78C9A1}</Project>
+      <Name>Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Enum\Enum.csproj">
+      <Project>{658E8EB6-B7CE-4446-8244-4EB62D76BF6B}</Project>
+      <Name>Enum</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExcelModel\ExcelModel.csproj">
+      <Project>{b15d2120-8df8-4732-b62c-39698405562f}</Project>
+      <Name>ExcelModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lib\Lib.csproj">
       <Project>{548138fb-44e8-499c-86e6-0d000a4b9e93}</Project>
       <Name>Lib</Name>
