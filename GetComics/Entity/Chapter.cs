@@ -24,7 +24,7 @@ namespace Entity
         /// <summary>
         /// 漫画id
         /// </summary>
-        public string comicid { get; set; }
+        public int comicid { get; set; }
         /// <summary>
         /// 章节id
         /// </summary>

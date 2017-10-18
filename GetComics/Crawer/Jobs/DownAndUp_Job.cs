@@ -1,21 +1,22 @@
 ﻿using Chloe;
 using Chloe.Infrastructure.Interception;
 using Chloe.SqlServer;
+using CrawerEnum;
 using Entity;
 using Framework.Common.Extension;
-
+using Lib.Helper;
+using log4net;
 using Quartz;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Lib.Helper;
-using System.IO;
-using System.Drawing;
-using CrawerEnum;
 
 namespace Crawer.Jobs
 {
@@ -121,6 +122,7 @@ namespace Crawer.Jobs
     [DisallowConcurrentExecution]
     public class DownAndUpPage_Job : IJob
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(DownAndUpPage_Job));
         MsSqlContext dbcontext;
         public DownAndUpPage_Job()
         {
@@ -133,15 +135,16 @@ namespace Crawer.Jobs
             //dbcontext.Session.AddInterceptor(interceptor);
             DateTime dt = DateTime.Now;
             string shortdate = dt.ToString("yyyy-MM-dd");           
-            IQuery<Page> cpq = dbcontext.Query<Page>();          
-            List<Page> plst = cpq.Where(a => a.pagelocal.Length==0).TakePage(1, 20).ToList();
+            IQuery<Page> cpq = dbcontext.Query<Page>();
+            IQuery<Chapter> cq = dbcontext.Query<Chapter>();
+            List<Page> plst = cpq.Where(a => a.pagelocal.Length==0).Take(20).ToList();
             HttpWebHelper web = new HttpWebHelper();
             foreach (var p in plst)
             {
 
                 try
                 {
-                    Stream stream = web.GetStream(p.pagesource);
+                    Stream stream = web.GetStream("http://cdn.sns.dongmanmanhua.cn/20150119_288/1421677325732TxLNo_JPEG/thumbnail_ipad.jpg");
                     Image img = Image.FromStream(stream);
                     stream.Close();
                     string filePath = AppDomain.CurrentDomain.BaseDirectory +"DownLoadImgs/"+ p.Id +".jpg";
@@ -150,9 +153,25 @@ namespace Crawer.Jobs
                     p.pagelocal = localimg;
                     p.modify = dt;
                     dbcontext.Update(p);
+                    dbcontext.Update<Chapter>(a => a.Id == p.chapterid, a => new Chapter()
+                    {
+                        downstatus = DownChapter.上传完图片,
+                        modify = dt
+                    });
+                    File.Delete(filePath);
                 }
                 catch (Exception ex)
                 {
+                    logger.Error(ex.Message);
+                    //Chapter chapter = cq.Where(x => x.Id == p.chapterid).FirstOrDefault();
+                    //chapter.retry = chapter.retry + 1;
+                    //chapter.modify = dt;
+                    //dbcontext.Update(chapter);
+                    dbcontext.Update<Chapter>(a => a.Id == p.chapterid, a => new Chapter()
+                    {
+                        retry = a.retry + 1,
+                        modify = dt
+                    });
                     Err_PageJob err = new Err_PageJob();
                     err.imgurl = p.pagesource;
                     err.source = p.source;
